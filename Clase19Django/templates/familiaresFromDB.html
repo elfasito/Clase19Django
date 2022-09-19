@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Entregable Clase 18 | Django familiaresFromDB</title>
+</head>
+<body style="background-color:grey;">
+    Data from DBsqlite<br>
+    Showing a list using python coding:<br>
+    <!-- python code inside html code-->
+    <!--  not is recommended code in python inside a html file, is just for simple things -->
+    <br>
+    {%for n in dataListDB%}
+    Nombre:
+    {{n.nombre}}<br>
+    Apellido:
+    {{n.apellido}}<br>
+    Edad:
+    {{n.edad}}<br>
+    Fecha de Nacimiento:
+    {{n.fechaNacimiento}}<br>
+    <br>
+    {%endfor%}
+</body>
+</html>
