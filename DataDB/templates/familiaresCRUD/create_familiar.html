@@ -1,0 +1,24 @@
+{% extends "home.html" %}
+{% load static%}
+
+{%block contenido %}
+
+<link rel="stylesheet" href="{%static '/css/bootstrap.min.css'%}"> <!-- manually added -->
+<link rel="stylesheet" href="{%static '/css/miestilo.css'%}"> <!-- manually added -->
+
+<div class="d-flex justify-content-center">
+    <form class="formDataFamiliares" method="POST" action="/DataDB/create_familiar/">
+        {% csrf_token %} <!-- the class="formDataFamiliares" is for get the style from that class used previously -->
+        <input type="text" name="nombre" placeholder="nombre">
+        <p></p> <!-- add a breakline -->
+        <input type="text" name="apellido" placeholder="apellido">
+        <p></p> <!-- add a breakline -->
+        <input type="text" name="edad" placeholder="edad">
+        <p></p> <!-- add a breakline -->
+        <input type="text" name="fecha nacimiento" placeholder="fecha nacimiento">
+        <p></p> <!-- add a breakline -->
+        <button type="submit" class="btn btn-primary btndj">Guardar</button>  <!-- submit its for specify what this is a button for the form class action -->
+    </form>
+</div>
+
+{%endblock%}

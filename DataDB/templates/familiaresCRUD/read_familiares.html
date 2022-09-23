@@ -1,0 +1,22 @@
+{% extends "home.html" %}
+{% load static%}
+
+{%block contenido %}
+
+<link rel="stylesheet" href="{%static '/css/bootstrap.min.css'%}"> <!-- manually added -->
+<link rel="stylesheet" href="{%static '/css/miestilo.css'%}"> <!-- manually added -->
+
+{%for familiar in familiares %}
+<li>
+    {{familiar}}
+    <a href="/DataDB/update_familiar/{{familiar.id}}" class="btn btn-warning">Editar</a>
+    <a href="/DataDB/delete_familiar/{{familiar.id}}" class="btn btn-danger">Borrar</a>
+    
+
+</li>
+<br>  <!-- add a space after every object on the list -->
+{% endfor %}
+
+<a class="btn btn-success" href="/DataDB/create_familiar">+ Agregar familiar</a>
+    
+{%endblock%}

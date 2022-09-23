@@ -55,7 +55,7 @@ ROOT_URLCONF = 'Clase19Django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [f"{BASE_DIR}/Clase19Django/templates"],
+        'DIRS': [f"{BASE_DIR}/Clase19Django/templates", f"{BASE_DIR}/DataDB/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,0 +1,66 @@
+{% extends "home.html" %}
+{% load static%}
+
+{%block contenido %}
+
+<div class="d-flex justify-content-center">Familiares:</div>
+<div class="d-flex justify-content-center">
+    <!--<form class="formDataFamiliares">>   original without actions for save data with a button -->
+    <form class="formDataFamiliares" action="/DataDB/familiares/" method="POST">
+        <!-- if you add the slash at the end of the action ex: "/DataDB/familiares/" you need the have the slash too in the url.py file -->
+        {% csrf_token %}
+        <!--<input type="text" placeholder="Modelo">-->
+        <!-- <input type="text" class="text-center" placeholder="Modelo"> -->
+        <input type="text" name="nombre" placeholder="nombre">
+        <p></p> <!-- add a breakline -->
+        <input type="text" name="apellido" placeholder="apellido">
+        <p></p> <!-- add a breakline -->
+        <input type="text" name="edad" placeholder="edad">
+        <p></p> <!-- add a breakline -->
+        <input type="text" name="fecha nacimiento" placeholder="fecha nacimiento">
+        <p></p> <!-- add a breakline -->
+    </form>
+</div>
+
+<div class="d-flex justify-content-center">
+    <!--<button type="button" class="btn btn-primary btndj">Guardar</button>    original common button but dont save data-->
+    <button type="submit" class="btn btn-primary btndj">Guardar</button>  <!-- submit its for specify what this is a button for the form class action -->
+</div>
+
+<p></p> <!-- add a breakline -->
+<!-- seccion para buscar data en la DB -->
+<div class="d-flex justify-content-center">
+    <form class="formDataFamiliares" action="/DataDB/buscar_familiares/" method="GET">
+        <input type="text" name="nombre" placeholder="Buscar por nombre">
+        <p></p> <!-- add a breakline -->
+        <div class="d-flex justify-content-center"> <button type="submit" class="btn btn-primary btndj">Buscar</button> </div>
+    </form>
+</div>
+
+<p></p> <!-- add a breakline -->
+
+<div class="d-flex justify-content-center">Resultado:</div>
+<p></p> <!-- add a breakline -->
+
+<div class="d-flex justify-content-center">
+    {% if familiares_busqueda %}
+    <ul>
+        {% for x in familiares_busqueda %}
+        Nombre: {{ x.nombre}}
+        <p></p>
+        Apellido: {{ x.apellido}}
+        <p></p>
+        Edad: {{ x.edad}}
+        <p></p>
+        Fecha Nacimiento: {{ x.fechaNacimiento}}
+        <p></p>
+        {% endfor %}
+    </ul>
+
+    {% else %}
+    <p><h5>No se encontraron datos</h5></p>
+    {% endif %}
+</div>
+
+{%endblock%}
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Inicio</title>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="{%static '/css/bootstrap.min.css'%}"> <!-- manually added -->
+    <link rel="stylesheet" href="{%static '/css/miestilo.css'%}"> <!-- manually added -->
+</head>
+
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-dark bg-dark static-top">
+        <div class="container">
+            <!-- these class access to the functions of the urls.py file -->
+            <a class="navbar-brand" href="/DataDB/home">Inicio</a>´
+            <a class="navbar-brand" href="/DataDB/familiares">Familiares</a>´
+            <a class="navbar-brand" href="/DataDB/read_familiares">Leer familiares</a>´
+            <!--  <a class="navbar-brand" href="/DataDB/mesas">Mesas</a>´ -->
+            <a class="navbar-brand" href="/DataDB/index">Index</a>´
+            <a class="navbar-brand" href="/admin">Administración</a>´
+        </div>
+        </nav>
+
+        <div class="contenido">
+            {%block contenido %}
+            <p> Home </p>
+            {%endblock%}
+        </div>
+
+    </body>
+    </html>
