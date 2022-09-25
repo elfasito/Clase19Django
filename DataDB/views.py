@@ -125,7 +125,8 @@ def sign_in(request): #register
     else:
         #form = UserCreationForm()
         form = UserRegisterForm() #its inherited from 
-        return render(request, "registro.html", {"form": form})
+
+    return render(request, "registro.html", {"form": form}) #this show the helps with the errors messages
     
 def mesas(request):
     if request.method == "POST":
