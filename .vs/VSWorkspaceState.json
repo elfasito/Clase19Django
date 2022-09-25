@@ -1,11 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Clase19Django",
     "\\Clase19Django\\templates",
     "\\DataDB",
-    "\\DataDB\\static\\css",
-    "\\DataDB\\templates"
+    "\\DataDB\\templates",
+    "\\DataDB\\templates\\familiaresCRUD"
   ],
-  "SelectedNode": "\\DataDB\\models.py",
+  "SelectedNode": "\\DataDB\\views.py",
   "PreviewInSolutionExplorer": false
 }
