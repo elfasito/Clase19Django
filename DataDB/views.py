@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from DataDB.models import Familiares, Mesa
 from DataDB.forms import *
 from django.contrib.auth.decorators import login_required #especifica que paginas pueden ser accedidas sin login
+from django.contrib.auth.models import User
 
 #libraries for login/logout functions
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -115,19 +116,58 @@ def login_request(request):
     return render(request, "login.html", {"form": form})
 
 def sign_in(request): #register
+    form = UserRegisterForm(request.POST) #its inherited from forms.py 
     if request.method == "POST":
         #form = UserCreationForm(request.POST)
-        form = UserRegisterForm(request.POST) #its inherited from forms.py 
+        
         if form.is_valid():
             #user = form.cleaned_data.get("username")
             form.save()
             return redirect("/DataDB/login/")
-    else:
+        else:
         #form = UserCreationForm()
-        form = UserRegisterForm() #its inherited from 
-
+            return render(request, "registro.html", {'form': form})
+    form = UserRegisterForm()
     return render(request, "registro.html", {"form": form}) #this show the helps with the errors messages
-    
+
+def registro(request):
+    form = UserRegisterForm(request.POST)
+    if request.method == 'POST':
+        #form = UserCreationForm(request.POST)       
+        #print(form)# debugeee
+        if form.is_valid():
+            #username = form.cleaned_data["username"]
+            form.save()
+            return redirect("/AppCoder/login")
+        else:#decidi regresar el formulario con error
+            return render(request, "registro.html", {'form': form})
+    #form = UserCreationForm()
+
+    form = UserRegisterForm()
+    return render(request, "registro.html", {'form': form})
+
+
+@login_required
+def update_profile(request):
+    user = request.user
+    user_basic_info = User.objects.get(id = user.id)
+    if request.method == "POST":
+        form = UserEditForm(request.POST, instance = user)
+        if form.is_valid():
+            #user data to update
+            user_basic_info.username = form.cleaned_data.get("username")
+            user_basic_info.email = form.cleaned_data.get("email")
+            user_basic_info.first_name = form.cleaned_data.get("first_name")
+            user_basic_info.last_name = form.cleaned_data.get("last_name")
+            user_basic_info.save()
+            return render(request, "home.html")
+        else:
+            return render(request, "home.html", {'form': form}) 
+    else:
+        form = UserEditForm(initial = {'email': user.email, "username": user.username, "first_name": user.first_name, "last_name": user.last_name})
+    return render(request, "editarPerfil.html", {'form': form, "user": user})
+
+
 def mesas(request):
     if request.method == "POST":
         mesa = Mesa(nombre=request.POST['nombre'], material=request.POST['material'],tipo=request.POST['tipo'],precio=request.POST['precio'])
