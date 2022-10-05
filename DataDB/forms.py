@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 
 class form_familiares(forms.Form):
@@ -18,13 +18,26 @@ class UserRegisterForm(UserCreationForm): #basicamente agarra el form original d
         help_texts = {k: "" for k in fields}
 
 class UserEditForm(UserChangeForm):
-    username = forms.CharField(widget = forms.TextInput(attrs={'placeholder': "Username"}))
+    #aunque las variables empiezen con minusculas, en la web se ven con la inicial en mayuscula
+    #salvo que se use label.
+    usuario = forms.CharField(widget = forms.TextInput(attrs={'placeholder': "Usuario"}))
     email = forms.EmailField(widget = forms.TextInput(attrs={'placeholder': "Email"}))
-    first_name = forms.CharField(widget = forms.TextInput(attrs={'placeholder': "First name"}))
-    last_name = forms.CharField(widget = forms.TextInput(attrs={'placeholder': "Last name"}))
-    password = forms.CharField(widget = forms.PasswordInput(attrs={'placeholder': "Password"}))
+    nombre = forms.CharField(widget = forms.TextInput(attrs={'placeholder': "Nombre"}))
+    apellido = forms.CharField(widget = forms.TextInput(attrs={'placeholder': "Apellido"}))
+    contraseña = forms.CharField(widget = forms.PasswordInput(attrs={'placeholder': "Contraseña"}))
 
     class Meta:
         model = User
-        fields = ["username", "email", "first_name", "last_name", "password"]
+        fields = ["usuario", "email", "nombre", "apellido", "contraseña"]
+        help_texts = {k: "" for k in fields}
+
+class UserChangePW(PasswordChangeForm):
+    #estas variables de abajo, tienen que tener el nombre del form original de django, para poder asignarles un label en español
+    old_password = forms.CharField(label="Contraseña anterior", widget = forms.PasswordInput(attrs={'placeholder': "Contraseña anterior"}))
+    new_password1 = forms.CharField(label="Nueva contraseña",widget = forms.PasswordInput(attrs={'placeholder': "Contraseña nueva"}))
+    new_password2 = forms.CharField(label="Repita la contraseña",widget = forms.PasswordInput(attrs={'placeholder': "Repita contraseña"}))
+    
+    class Meta:
+        model = User
+        fields = ["old_password", "new_password1", "new_password2"]
         help_texts = {k: "" for k in fields}

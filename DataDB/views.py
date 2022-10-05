@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required #especifica que pagina
 from django.contrib.auth.models import User
 
 #libraries for login/logout functions
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 
 def home(request):
     return render(request, "home.html")
@@ -130,23 +130,6 @@ def sign_in(request): #register
     form = UserRegisterForm()
     return render(request, "registro.html", {"form": form}) #this show the helps with the errors messages
 
-def registro(request):
-    form = UserRegisterForm(request.POST)
-    if request.method == 'POST':
-        #form = UserCreationForm(request.POST)       
-        #print(form)# debugeee
-        if form.is_valid():
-            #username = form.cleaned_data["username"]
-            form.save()
-            return redirect("/AppCoder/login")
-        else:#decidi regresar el formulario con error
-            return render(request, "registro.html", {'form': form})
-    #form = UserCreationForm()
-
-    form = UserRegisterForm()
-    return render(request, "registro.html", {'form': form})
-
-
 @login_required
 def update_profile(request):
     user = request.user
@@ -155,18 +138,39 @@ def update_profile(request):
         form = UserEditForm(request.POST, instance = user)
         if form.is_valid():
             #user data to update
-            user_basic_info.username = form.cleaned_data.get("username")
+            user_basic_info.username = form.cleaned_data.get("usuario")
             user_basic_info.email = form.cleaned_data.get("email")
-            user_basic_info.first_name = form.cleaned_data.get("first_name")
-            user_basic_info.last_name = form.cleaned_data.get("last_name")
+            user_basic_info.first_name = form.cleaned_data.get("nombre")
+            user_basic_info.last_name = form.cleaned_data.get("apellido")
             user_basic_info.save()
             return render(request, "home.html")
         else:
             return render(request, "home.html", {'form': form}) 
     else:
-        form = UserEditForm(initial = {'email': user.email, "username": user.username, "first_name": user.first_name, "last_name": user.last_name})
+        form = UserEditForm(initial = {'email': user.email, "usuario": user.username, "nombre": user.first_name, "apellido": user.last_name})
     return render(request, "editarPerfil.html", {'form': form, "user": user})
 
+@login_required
+def changePW(request):
+    usuario = request.user
+    user_basic_info = User.objects.get(id = usuario.id)
+    if request.method == "POST":
+        form = UserChangePW(data = request.POST, user = usuario)
+        if form.is_valid():
+            #la data qe se escribe aca abajo es para autocompletar los input fields
+            #user_basic_info.set_unusable_password = form.cleaned_data.get("old_password")
+            #user_basic_info.set_password = form.cleaned_data.get("new_password1")
+            #user_basic_info.set_password = form.cleaned_data.get("new_password2")
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return render(request, "home.html")
+    else:
+        form = UserChangePW(request.user)
+    return render(request, "changePW.html", {'form': form, "usuario": usuario})    
+    
+@login_required
+def perfil(request):
+    return render(request, "perfil.html")
 
 def mesas(request):
     if request.method == "POST":
@@ -174,4 +178,18 @@ def mesas(request):
         mesa.save()
         return render(request, "home.html") #nos lleva a home
     return render(request, "mesas.html")
+
+"""@login_required
+def changePW(request):
+    usuario = request.user
+    if request.method == "POST":
+        form = PasswordChangeForm(data = request.POST, user = usuario)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return render(request, "home.html")
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "changePW.html", {'form': form, "usuario": usuario})"""
+
 

@@ -19,5 +19,7 @@ urlpatterns = [
     path('sign_in/', sign_in),
     path('logout/', LogoutView.as_view(template_name = "home.html"), name = "Sesion cerrada"),
     path('editarPerfil/', update_profile),
+    path('changePW/', changePW),
+    path('perfil/', perfil),
     path('mesas/', mesas)
 ]
