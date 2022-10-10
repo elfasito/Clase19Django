@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.template import loader
 from DataDB.models import Familiares
+from django.shortcuts import render, redirect
+
 
 def familiares(self): #shows data but not from DB, sadly D:
 
@@ -42,3 +44,7 @@ def addFamiliar(self): #if call this from url, add familiars to the db table
         n.save()
 
     return HttpResponse("Se agregaron los 3 familiares especificados")
+
+
+def mainhome(request):
+    return render(request, "mainhome.html")

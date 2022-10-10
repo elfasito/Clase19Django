@@ -21,5 +21,6 @@ urlpatterns = [
     path('editarPerfil/', update_profile),
     path('changePW/', changePW),
     path('perfil/', perfil),
+    path('changeAvatar/', AgregarAvatar),
     path('mesas/', mesas)
 ]
