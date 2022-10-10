@@ -1,0 +1,1 @@
+web: gunicorn Clase19Django.wsgi
